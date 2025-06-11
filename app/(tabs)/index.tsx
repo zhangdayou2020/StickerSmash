@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import ImageViewer from "@/components/ImageViewer";
+import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 // const PlaceholderImage = require("../../assets/images/background-image");
@@ -7,13 +8,27 @@ import { StyleSheet, View } from "react-native";
 // 尤其是还有自带的代码 补全的一堆功能 想想华为 鹏新旭那群傻逼的 还不让用vpn 世界最先进的一些工具 那类傻逼再也不想看到了
 const PlaceholderImage = require("../../assets/images/background-image.png");
 export default function Index() {
+  const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      console.log(result);
+      // 这里可以处理选中的图片
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      console.log("用户取消的图片的选择");
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer imgSource={PlaceholderImage} />
+        <ImageViewer imgSource={selectedImage || PlaceholderImage} />
       </View>
       <View style={styles.footerContainer}>
-        <Button label="选择一个图片" theme="primary" />
+        <Button label="选择一个图片" theme="primary" onPress={pickImageAsync} />
         <Button label="使用一个图片" />
       </View>
     </View>

@@ -4,9 +4,10 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 type Props = {
   label: string;
   theme?: "primary";
+  onPress?: () => void;
 };
 
-export default function Button({ label, theme }: Props) {
+export default function Button({ label, theme, onPress }: Props) {
   if (theme === "primary") {
     return (
       <View
@@ -21,7 +22,7 @@ export default function Button({ label, theme }: Props) {
       >
         <Pressable
           style={[styles.button, { backgroundColor: "#007bff" }]} // 使用主题颜色
-          onPress={() => alert(" You Button Pressed")} // 添加一个简单的点击事件
+          onPress={onPress} // 添加一个简单的点击事件
         >
           <FontAwesome
             name="picture-o"
@@ -47,7 +48,7 @@ export default function Button({ label, theme }: Props) {
     >
       <Pressable
         style={styles.button} // 使用主题颜色
-        onPress={() => alert(" You Button Pressed")} // 添加一个简单的点击事件
+        onPress={onPress} // 添加一个简单的点击事件
       >
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
